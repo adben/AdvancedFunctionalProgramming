@@ -1,10 +1,10 @@
 {-# LANGUAGE FlexibleContexts, FlexibleInstances, FunctionalDependencies #-}
 
-module Assignment4 where
+module AboutMonads where
 
 
 -- import Control.Applicative (Applicative(..))
--- import Control.Monad       (ap, liftM, replicateM)
+import Control.Monad       (ap, liftM, replicateM)
 -- import Data.Foldable       (Foldable(..))
 -- import Data.Monoid         (Monoid(..), Sum(..), (<>))
 -- import Data.Ratio          ((%))
@@ -25,13 +25,21 @@ data Outcome = Win | Lose
 
 class Monad m => MonadGamble m where
   toss :: m Coin
-  roll :: m Dice
+  roll :: Int -> m Int
 
 {-|
 Exercise 1: Write a function game ::MonadGamble m => m Outcome that implements the game above
 -}
 game :: MonadGamble m => m Outcome
-game = undefined
+game = do
+  x <- replicateM 6 toss -- TODO what type?
+  let i = length (filter (== H) x)
+  y <- roll 6
+  if y > i
+    then return Win
+    else return Lose
+
+--game = replicateM 10 toss -- TODO 
 
 -- Simulation
 -- mhttps://uu-afp.github.io/as1.html#simulation
@@ -53,5 +61,4 @@ instance MonadGamble IO where
 
 simulate :: IO Outcome -> Integer -> IO Rational
 simulate = undefined
-
 
