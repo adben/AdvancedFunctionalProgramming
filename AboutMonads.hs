@@ -3,12 +3,7 @@
 module AboutMonads where
 
 
--- import Control.Applicative (Applicative(..))
 import Control.Monad       (ap, liftM, replicateM)
--- import Data.Foldable       (Foldable(..))
--- import Data.Monoid         (Monoid(..), Sum(..), (<>))
--- import Data.Ratio          ((%))
-
 import System.Random       (Random(random, randomR), getStdRandom)
 
 -- https://uu-afp.github.io/as1.html
@@ -48,11 +43,11 @@ game = do
 -- Exercise 4: Write a function that runs a game of chance (given as the first parameter, not necessarily the game implemented in Exercise 1) $n$ times($n > 0$, the second parameter) and returns the fraction of games won. You can now approximate to probability of winning using simulate game 10000
 
 instance Random Coin where
-    randomR (l,h) g = undefined
-    random = undefined
+    randomR (l,h) g = case randomR (fromEnum l, fromEnum h) g of (x, g') -> (toEnum x, g')
+    random g = randomR (minBound, maxBound) g
 
 instance Random Dice where
-    randomR (l, h) g = undefined
+    randomR (l,h) g = undefined
     random = undefined
 
 instance MonadGamble IO where
@@ -61,4 +56,3 @@ instance MonadGamble IO where
 
 simulate :: IO Outcome -> Integer -> IO Rational
 simulate = undefined
-
