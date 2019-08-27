@@ -15,11 +15,10 @@ import System.Random       (Random(random, randomR), getStdRandom)
 -- The Gambling Monad
 
 data Coin = H | T
-  deriving (Eq, Enum, Ord, Show)
+  deriving (Bounded, Eq, Enum, Ord, Show)
 
 data Dice = D1 | D2 | D3 | D4 | D5 | D6
-  deriving (Eq, Enum, Ord, Show)
-
+  deriving (Bounded, Eq, Enum, Ord, Show)
 
 data Outcome = Win | Lose
   deriving (Eq, Ord, Show)
@@ -38,7 +37,7 @@ game = undefined
 -- mhttps://uu-afp.github.io/as1.html#simulation
 -- Exercise 2: Give Random instances for Coin and Dice.
 -- Exercise 3: Give a MonadGamble instance for the IO monad.
--- Exercise 4: Write a function
+-- Exercise 4: Write a function that runs a game of chance (given as the first parameter, not necessarily the game implemented in Exercise 1) $n$ times($n > 0$, the second parameter) and returns the fraction of games won. You can now approximate to probability of winning using simulate game 10000
 
 instance Random Coin where
     randomR (l,h) g = undefined
@@ -51,4 +50,8 @@ instance Random Dice where
 instance MonadGamble IO where
   toss = undefined
   roll = undefined
+
+simulate :: IO Outcome -> Integer -> IO Rational
+simulate = undefined
+
 
