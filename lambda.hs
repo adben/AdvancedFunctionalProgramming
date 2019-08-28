@@ -1,3 +1,4 @@
+
 -- lambda evaluation using De Bruijn index
 -- see https://en.wikipedia.org/wiki/De_Bruijn_index
 data Term  = App Term Term
